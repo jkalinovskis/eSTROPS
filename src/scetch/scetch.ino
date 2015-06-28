@@ -1,25 +1,25 @@
 #include <SPI.h>
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <OLED_I2C.h>
 #include "RTClib.h"
 #include <DHT11.h>
 
 #define OLED_RESET 4
 #define DHT11pin 2
-Adafruit_SSD1306 display(OLED_RESET);
 RTC_DS1307 rtc;
 DHT11 dht11(DHT11pin);
 
-
+OLED  myOLED(SDA, SCL, 8);
+extern uint8_t SmallFont[];
+extern uint8_t MediumNumbers[];
+extern uint8_t BigNumbers[];
 
 void setup()   {
   Serial.begin(9600);
   Wire.begin();
 
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C); // initialize with the I2C addr 0x3C (for the 128x64)
-  display.clearDisplay();
-  display.setTextColor(WHITE);
+  myOLED.begin();
+  myOLED.setFont(SmallFont);
 
   // Splash screen, version, date
   display.setCursor(0, 20);
